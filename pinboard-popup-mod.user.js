@@ -46,6 +46,12 @@
 
     const uniq = arr => arr.filter((e, i, a) => a.indexOf(e, i + 1) === -1);
 
+    const appendSpace = () => {
+        if (tagsInput.value.trim() !== "") {
+            tagsInput.value += " ";
+        }
+    };
+
     const getTags = () => {
         let tags = tagsInput.value.trim();
         tags = tags.split(/[,\s]+/); // split by spaces/commas
@@ -58,12 +64,8 @@
         tags = uniq(tags); // make list unique
         tags = tags.filter(t => !!t); // remove any empty values
         tags = tags.join(" ");
-
         tagsInput.value = tags;
-
-        if (tagsInput.value.trim() !== "") {
-            tagsInput.value += " ";
-        }
+        appendSpace();
     };
 
     const syncTags = () => {
@@ -158,7 +160,10 @@
         $("textarea").style.backgroundColor = "#ced";
     }
 
-    highlightSelectedTags().then(() => tagsInput.focus());
+    highlightSelectedTags().then(() => {
+        appendSpace();
+        tagsInput.focus();
+    });
 
     // Watch for suggested tags to be loaded
     new MutationObserver(function (mutations) {
